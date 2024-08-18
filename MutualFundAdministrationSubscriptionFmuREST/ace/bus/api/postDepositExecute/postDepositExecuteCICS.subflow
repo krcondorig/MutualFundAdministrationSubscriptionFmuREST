@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ComIbmCICSIPICRequest.msgnode="ComIbmCICSIPICRequest.msgnode" xmlns:ComIbmCompute.msgnode="ComIbmCompute.msgnode" xmlns:ComIbmTrace.msgnode="ComIbmTrace.msgnode" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eflow="http://www.ibm.com/wbi/2005/eflow" xmlns:utility="http://www.ibm.com/wbi/2005/eflow_utility" nsURI="ace/bus/api/postDepositExecute/postDepositExecuteCICS.subflow" nsPrefix="ace_bus_api_postDepositExecute_postDepositExecuteCICS.subflow">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ComIbmCICSIPICRequest.msgnode="ComIbmCICSIPICRequest.msgnode" xmlns:ComIbmCompute.msgnode="ComIbmCompute.msgnode" xmlns:ComIbmLabel.msgnode="ComIbmLabel.msgnode" xmlns:ComIbmTrace.msgnode="ComIbmTrace.msgnode" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eflow="http://www.ibm.com/wbi/2005/eflow" xmlns:utility="http://www.ibm.com/wbi/2005/eflow_utility" nsURI="ace/bus/api/postDepositExecute/postDepositExecuteCICS.subflow" nsPrefix="ace_bus_api_postDepositExecute_postDepositExecuteCICS.subflow">
   <eClassifiers xmi:type="eflow:FCMComposite" name="FCMComposite_1" useDefaults="true" udpSupport="true" nodeLayoutStyle="SQUARE">
     <eSuperTypes href="http://www.ibm.com/wbi/2005/eflow#//FCMBlock"/>
-    <translation xmi:type="utility:TranslatableString" key="postDepositExecuteCICS" bundleName="ace/bus/api/postDepositExecute/postDepositExecuteCICS" pluginId="MutualFundAdministrationSubscriptionFmuREST"/>    
+    <translation xmi:type="utility:TranslatableString" key="postDepositExecuteCICS" bundleName="ace/bus/api/postDepositExecute/postDepositExecuteCICS" pluginId="MutualFundAdministrationSubscriptionFmuREST"/>
     <colorGraphic16 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/MutualFundAdministrationSubscriptionFmuREST/icons/full/obj16/postDepositExecuteCICS.gif"/>
     <colorGraphic32 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/MutualFundAdministrationSubscriptionFmuREST/icons/full/obj30/postDepositExecuteCICS.gif"/>
-        <composition>
+    <composition>
       <nodes xmi:type="eflow:FCMSource" xmi:id="InTerminal.Input" location="81,161">
         <translation xmi:type="utility:TranslatableString" key="InTerminal.Input" bundleName="ace/bus/api/postDepositExecute/postDepositExecuteCICS" pluginId="MutualFundAdministrationSubscriptionFmuREST"/>
       </nodes>
@@ -27,11 +27,20 @@
       <nodes xmi:type="ComIbmTrace.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_6" location="547,158">
         <translation xmi:type="utility:ConstantString" string="T_Debug2"/>
       </nodes>
-      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_7" location="705,159" computeExpression="esql://routine/ace.bus.api.postDepositExecute#postDepositExecuteCICS_PrepareRes.Main" >
+      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_7" location="705,159" computeExpression="esql://routine/ace.bus.api.postDepositExecute#postDepositExecuteCICS_PrepareRes.Main">
         <translation xmi:type="utility:ConstantString" string="PrepareRes"/>
       </nodes>
-      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_1" location="688,51" computeExpression="esql://routine/ace.bus.api.postDepositExecute#postDepositExecuteCICS_PrepareError.Main" >
+      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_1" location="688,51" computeExpression="esql://routine/ace.bus.api.postDepositExecute#postDepositExecuteCICS_PrepareError.Main">
         <translation xmi:type="utility:ConstantString" string="PrepareError"/>
+      </nodes>
+      <nodes xmi:type="ComIbmLabel.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_8" location="268,376" labelName="localFlow">
+        <translation xmi:type="utility:ConstantString" string="localFlow"/>
+      </nodes>
+      <nodes xmi:type="ComIbmTrace.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_9" location="399,375" destination="file" filePath="D:\Synopsis\SYNOPSIS\archivos\workspace\logs" pattern="[[${CURRENT_TIMESTAMP}] - [MsgID: ${Environment.HeadersIn.Messageid}] - [ChannelID: ${Environment.HeadersIn.Channelid}] - [${Environment.Operation}] - [postActivateExecuteCICS] - [Debug1]&#xD;&#xA;[Root: ${Root}]&#xD;&#xA;[LocalEnvironment: ${LocalEnvironment}]&#xD;&#xA;[Environment :${Environment}]]">
+        <translation xmi:type="utility:ConstantString" string="Trace"/>
+      </nodes>
+      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_10" location="527,375" computeExpression="esql://routine/ace.bus.api.postDepositExecute#postDepositExecuteCICS_MockResponse.Main">
+        <translation xmi:type="utility:ConstantString" string="MockResponse"/>
       </nodes>
       <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_1" targetNode="FCMComposite_1_2" sourceNode="InTerminal.Input" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
       <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_2" targetNode="FCMComposite_1_3" sourceNode="FCMComposite_1_2" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
@@ -44,6 +53,9 @@
       <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_9" targetNode="OutTerminal.Output" sourceNode="FCMComposite_1_7" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
       <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_10" targetNode="FCMComposite_1_1" sourceNode="FCMComposite_1_5" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
       <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_11" targetNode="OutTerminal.Output" sourceNode="FCMComposite_1_1" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_12" targetNode="FCMComposite_1_9" sourceNode="FCMComposite_1_8" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_13" targetNode="FCMComposite_1_10" sourceNode="FCMComposite_1_9" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_14" targetNode="FCMComposite_1_7" sourceNode="FCMComposite_1_10" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
     </composition>
     <propertyOrganizer/>
     <stickyBoard/>

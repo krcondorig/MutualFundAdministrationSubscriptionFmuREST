@@ -6,6 +6,7 @@
 		<project>MutualFundAdministrationSubscriptionFmuLIB</project>
 		<project>common-core-library</project>
 		<project>control-core-library</project>
+		<project>CreditCardLockUnlockDdeBLIB</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
