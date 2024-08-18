@@ -48,14 +48,17 @@ CREATE COMPUTE MODULE postDepositExecuteCICS_PrepareRes
 		CALL setMonitoringResponseTime( Environment );
 		    		
     	DECLARE chrTramaOut CHARACTER ;
+    	--SET Environment.TESTING = 'ENTRO ACA';
 		SET chrTramaOut = CAST(InputRoot.BLOB.BLOB AS CHARACTER CCSID InputRoot.Properties.CodedCharSetId);
 		
 		SET Environment.data.chrTramaOut = chrTramaOut;
 		
 		DECLARE chrCodRes CHARACTER SUBSTRING(chrTramaOut FROM C_IND_COD_RESP FOR C_LNG_COD_RESP);
+		--DECLARE chrCodRes CHARACTER SUBSTRING(chrTramaOut FROM 644 FOR 648);
 		DECLARE chrCodMsg CHARACTER SUBSTRING(chrTramaOut FROM C_IND_MSG_RESP FOR C_LNG_MSG_RESP);
 		
 		SET chrCodRes = RIGHT('0000' || chrCodRes,4);
+		
 		
 		CALL createResponseStatus(Environment,NULL,0,'EJECUCION CON EXITO',chrCodRes,chrCodMsg);
 		
@@ -141,8 +144,25 @@ CREATE COMPUTE MODULE postDepositExecuteCICS_MockResponse
 		SET refDfdlBody.BSEC710P_IMCOMRES = '12';
 		SET refDfdlBody.BSEC710P_DEPRD = '13';
 		SET refDfdlBody.BSEC710P_DEDOCIDE = '14';
-
 		
+		--lo envio al environment para usarlo en el prepareResponseJSON
+		SET refEnv.OutputValues.BSEC710P_NUSLC = refDfdlBody.BSEC710P_NUSLC;
+		SET refEnv.OutputValues.BSEC710P_IMCOM_S = refDfdlBody.BSEC710P_IMCOM_S;
+		SET refEnv.OutputValues.BSEC710P_IMCOM = refDfdlBody.BSEC710P_IMCOM;
+		SET refEnv.OutputValues.BSEC710P_IMIGV_S = refDfdlBody.BSEC710P_IMIGV_S;
+		SET refEnv.OutputValues.BSEC710P_IMIGV = refDfdlBody.BSEC710P_IMIGV;
+		SET refEnv.OutputValues.BSEC710P_NUCTA = refDfdlBody.BSEC710P_NUCTA;
+		SET refEnv.OutputValues.BSEC710P_NUPLZ = refDfdlBody.BSEC710P_NUPLZ;
+		SET refEnv.OutputValues.BSEC710P_DEMENRF = refDfdlBody.BSEC710P_DEMENRF;
+		SET refEnv.OutputValues.BSEC710P_DEMENRF1 = refDfdlBody.BSEC710P_DEMENRF1;
+		SET refEnv.OutputValues.BSEC710P_DEMENRF2 = refDfdlBody.BSEC710P_DEMENRF2;
+		SET refEnv.OutputValues.BSEC710P_IMCOMADM = refDfdlBody.BSEC710P_IMCOMADM;
+		SET refEnv.OutputValues.BSEC710P_IMCOMRES = refDfdlBody.BSEC710P_IMCOMRES;
+		SET refEnv.OutputValues.BSEC710P_DEPRD = refDfdlBody.BSEC710P_DEPRD;
+		SET refEnv.OutputValues.BSEC710P_DEDOCIDE = refDfdlBody.BSEC710P_DEDOCIDE;
+		
+		
+
 		CREATE LASTCHILD OF OutputRoot DOMAIN 'BLOB';
 		CREATE FIELD OutputRoot.BLOB.BLOB;
 		CREATE FIELD OutputRoot.Properties.CodedCharSetId;
