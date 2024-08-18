@@ -36,8 +36,8 @@
       <nodes xmi:type="ComIbmLabel.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_8" location="268,376" labelName="localFlow">
         <translation xmi:type="utility:ConstantString" string="localFlow"/>
       </nodes>
-      <nodes xmi:type="ComIbmTrace.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_9" location="399,375" destination="file" filePath="D:\Synopsis\SYNOPSIS\archivos\workspace\logs" pattern="[[${CURRENT_TIMESTAMP}] - [MsgID: ${Environment.HeadersIn.Messageid}] - [ChannelID: ${Environment.HeadersIn.Channelid}] - [${Environment.Operation}] - [postActivateExecuteCICS] - [Debug1]&#xD;&#xA;[Root: ${Root}]&#xD;&#xA;[LocalEnvironment: ${LocalEnvironment}]&#xD;&#xA;[Environment :${Environment}]]">
-        <translation xmi:type="utility:ConstantString" string="Trace"/>
+      <nodes xmi:type="ComIbmTrace.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_9" location="399,375" destination="file" filePath="D:\Synopsis\SYNOPSIS\archivos\workspace\logs\debug_ifx.log" pattern="[[${CURRENT_TIMESTAMP}] - [MsgID: ${Environment.HeadersIn.Messageid}] - [ChannelID: ${Environment.HeadersIn.Channelid}] - [${Environment.Operation}] - [postActivateExecuteCICS] - [Debug1]&#xD;&#xA;[Root: ${Root}]&#xD;&#xA;[LocalEnvironment: ${LocalEnvironment}]&#xD;&#xA;[Environment :${Environment}]]">
+        <translation xmi:type="utility:ConstantString" string="Local_trace"/>
       </nodes>
       <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_10" location="527,375" computeExpression="esql://routine/ace.bus.api.postDepositExecute#postDepositExecuteCICS_MockResponse.Main">
         <translation xmi:type="utility:ConstantString" string="MockResponse"/>
