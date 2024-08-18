@@ -36,7 +36,7 @@ CREATE COMPUTE MODULE postDepositExecuteCICS_PrepareReq
 		-- TODO: Solo para pruebas locales.
 		PROPAGATE TO LABEL 'localFlow';
 						
-		RETURN TRUE;
+		RETURN FALSE;
 	END;
 END MODULE;
 
@@ -62,13 +62,13 @@ CREATE COMPUTE MODULE postDepositExecuteCICS_PrepareRes
 		CALL isSuccessCategoryCICS(Environment.StatusRes,Environment,Environment.Equivalencias);
 		DECLARE responseType INTEGER COALESCE(Environment.StatusRes.status.responseType, -1);
 		
-		IF chrCodRes = '0000' OR responseType = 0 THEN
+		--IF chrCodRes = '0000' OR responseType = 0 THEN
 			CALL createHeaderBus(OutputRoot,Environment);
 			CALL parsingTramaCICS(InputRoot,Environment,C_NS);
 			CALL prepareResponseJSON(OutputRoot,Environment);
-		ELSE
-			CALL createHeaderErrorCICS(OutputRoot,Environment,OutputLocalEnvironment,chrCodRes,4,chrCodMsg);
-    	END IF;		
+		--ELSE
+		--	CALL createHeaderErrorCICS(OutputRoot,Environment,OutputLocalEnvironment,chrCodRes,4,chrCodMsg);
+    	--END IF;		
     	
     	/* Audit response and reply data */
 		CALL setMonitoringEndTime( Environment );
