@@ -48,16 +48,28 @@ CREATE COMPUTE MODULE postDepositExecuteCICS_PrepareRes
 		CALL setMonitoringResponseTime( Environment );
 		    		
     	DECLARE chrTramaOut CHARACTER ;
-    	--SET Environment.TESTING = 'ENTRO ACA';
+    	
 		SET chrTramaOut = CAST(InputRoot.BLOB.BLOB AS CHARACTER CCSID InputRoot.Properties.CodedCharSetId);
 		
 		SET Environment.data.chrTramaOut = chrTramaOut;
 		
 		DECLARE chrCodRes CHARACTER SUBSTRING(chrTramaOut FROM C_IND_COD_RESP FOR C_LNG_COD_RESP);
-		--DECLARE chrCodRes CHARACTER SUBSTRING(chrTramaOut FROM 644 FOR 648);
+		--DECLARE chrCodRes CHARACTER SUBSTRING(chrTramaOut FROM 522 FOR 525);
+		SET Environment.VALOR_Antes.C_LNG_COD_RESP = C_LNG_COD_RESP;
+		SET Environment.VALOR_ANTES.chrCodRes = chrCodRes;
 		DECLARE chrCodMsg CHARACTER SUBSTRING(chrTramaOut FROM C_IND_MSG_RESP FOR C_LNG_MSG_RESP);
 		
-		SET chrCodRes = RIGHT('0000' || chrCodRes,4);
+		--SET chrCodRes = RIGHT('0000' || chrCodRes,4);
+		SET chrCodRes = RIGHT(C_CICS_OK_RESP || chrCodRes,4);
+		--SET chrCodRes = RIGHT('0000' || TRIM(chrCodRes),4);  --elimino los espacios que tiene chrCodRes, concateno luego tomo los 4 ultimos espacios
+		
+		SET Environment.VALOR.C_IND_COD_RESP = C_IND_COD_RESP; --Esta mostrando 523
+		SET Environment.VALOR.C_LNG_COD_RESP = C_LNG_COD_RESP; --Esta mostrando 2 
+		SET Environment.VALOR.chrCodRes = chrCodRes; --Esta mostrando '00  '
+		
+		--SET Environment.VALOR.C_IND_MSG_RESP = C_IND_MSG_RESP; --Esta mostrando 525
+		--SET Environment.VALOR.C_LNG_MSG_RESP = C_LNG_MSG_RESP; --Esta mostrando 60 
+		--SET Environment.VALOR.chrCodMsg = chrCodMsg; --Esta mostrando 60 espacios
 		
 		
 		CALL createResponseStatus(Environment,NULL,0,'EJECUCION CON EXITO',chrCodRes,chrCodMsg);
@@ -65,13 +77,13 @@ CREATE COMPUTE MODULE postDepositExecuteCICS_PrepareRes
 		CALL isSuccessCategoryCICS(Environment.StatusRes,Environment,Environment.Equivalencias);
 		DECLARE responseType INTEGER COALESCE(Environment.StatusRes.status.responseType, -1);
 		
-		--IF chrCodRes = '0000' OR responseType = 0 THEN
+		IF chrCodRes = C_CICS_OK_RESP OR responseType = 0 THEN
 			CALL createHeaderBus(OutputRoot,Environment);
 			CALL parsingTramaCICS(InputRoot,Environment,C_NS);
 			CALL prepareResponseJSON(OutputRoot,Environment);
-		--ELSE
-		--	CALL createHeaderErrorCICS(OutputRoot,Environment,OutputLocalEnvironment,chrCodRes,4,chrCodMsg);
-    	--END IF;		
+		ELSE
+			CALL createHeaderErrorCICS(OutputRoot,Environment,OutputLocalEnvironment,chrCodRes,4,chrCodMsg);
+    	END IF;		
     	
     	/* Audit response and reply data */
 		CALL setMonitoringEndTime( Environment );
@@ -128,6 +140,15 @@ CREATE COMPUTE MODULE postDepositExecuteCICS_MockResponse
 		
 		DECLARE refMessageIn REFERENCE TO refInput.{C_NS}:MESSAGEHOST;
 		
+		--
+		CREATE FIELD refMessageIn.HEADER_TLDCPAGO.TLDCPAGO_DATOS_INPUT;
+		CREATE FIELD refMessageIn.HEADER_TLDCPAGO.TLDCPAGO_COMMAREA_MPIS;
+		CREATE FIELD refMessageIn.HEADER_TLDCPAGO.TLDCPAGO_DATOS_OUTPUT;
+		
+		DECLARE refTldcPagoOutput REFERENCE TO refMessageIn.HEADER_TLDCPAGO.TLDCPAGO_DATOS_OUTPUT;
+		SET refTldcPagoOutput.TLDCPAGO_COD_RET = C_CICS_OK_RESP;
+		--
+				
 		CREATE FIELD refMessageIn.BODY.BSEC710P_DATOS_OUTPUT;
 		DECLARE refDfdlBody REFERENCE TO refMessageIn.BODY.BSEC710P_DATOS_OUTPUT;
 		SET refDfdlBody.BSEC710P_NUSLC = '1';
@@ -160,6 +181,8 @@ CREATE COMPUTE MODULE postDepositExecuteCICS_MockResponse
 		SET refEnv.OutputValues.BSEC710P_IMCOMRES = refDfdlBody.BSEC710P_IMCOMRES;
 		SET refEnv.OutputValues.BSEC710P_DEPRD = refDfdlBody.BSEC710P_DEPRD;
 		SET refEnv.OutputValues.BSEC710P_DEDOCIDE = refDfdlBody.BSEC710P_DEDOCIDE;
+		
+		SET refEnv.SALIDA_DFDL.BSEC710P_NUSLC = refDfdlBody.BSEC710P_NUSLC;
 		
 		
 

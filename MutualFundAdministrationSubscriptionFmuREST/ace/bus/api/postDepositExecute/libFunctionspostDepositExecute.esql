@@ -9,6 +9,9 @@ BEGIN
 
 	IF isBSEOJIN = 'S' THEN
 		CALL prepareHeaderBSEOJINT( refOut, refEnv, C_NS, refParameters, C_POS_COD_RESP, C_LONG_COD_RESP );
+		--
+		CREATE FIELD refOut.{C_NS}:MESSAGEHOST.HEADER_TLDCPAGO;
+		--
 		CREATE FIELD refOut.{C_NS}:MESSAGEHOST.BODY AS refOut;
 	ELSE
 		CALL prepareHeaderBSE(refOut,refParameters);
@@ -62,10 +65,8 @@ BEGIN
     SET refOutData.rescueTaxCommission = 'string';
     SET refOutData.productDescription = 'string';
     SET refOutData.documentDescription = 'string';
-    */
+    */ 
     
-   	SET refOutData.operationNumber = 'string';
-    SET refOutData.operationDate = 'string';
     SET refOutData.requestNumber = refEnv.OutputValues.BSEC710P_NUSLC;
     SET refOutData.signCommission = refEnv.OutputValues.BSEC710P_IMCOM_S;
     SET refOutData.commision = refEnv.OutputValues.BSEC710P_IMCOM;
@@ -80,6 +81,7 @@ BEGIN
     SET refOutData.rescueTaxCommission = refEnv.OutputValues.BSEC710P_IMCOMRES;
     SET refOutData.productDescription = refEnv.OutputValues.BSEC710P_DEPRD;
     SET refOutData.documentDescription = refEnv.OutputValues.BSEC710P_DEDOCIDE;
+
 
 
 END;
